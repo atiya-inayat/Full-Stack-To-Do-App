@@ -20,7 +20,14 @@ export const createTask = async (req, res, next) => {
 
 export const getAllTask = async (req, res, next) => {
   try {
-    const AllTask = await Task.find();
+    const { completed, priority } = req.query;
+    console.log(priority, completed);
+
+    let filter = {};
+    if (completed !== undefined) filter.completed = completed === "true";
+    if (priority) filter.priority = priority;
+
+    const AllTask = await Task.find(filter);
     res.status(200).json(AllTask);
   } catch (error) {
     next(error);
