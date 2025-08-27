@@ -4,6 +4,7 @@ dotenv.config();
 import express from "express";
 import connectDB from "./config/db.js";
 import taskRoutes from "./routes/taskRoutes.js";
+import errorHandler from "./handlingError/errorHandler.js";
 const app = express();
 
 // connect to DB
@@ -11,10 +12,12 @@ connectDB();
 
 // console.log("MONGO_URI:", process.env.MONGODB_URI); // test it here (should not be undefined)
 
+app.use(express.json()); // to parse JSON body
 // Routes
 app.use("/api/tasks", taskRoutes);
 
-app.use(express.json()); // to parse JSON body
+// error - Must be the last middleware
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
   res.send("hello World!!");

@@ -7,13 +7,15 @@ import {
   updateTask,
   deleteTask,
 } from "../controllers/taskController.js";
+import taskValidationRules from "../validator/validators.js";
+// import { validationResult } from "express-validators";
 
 const router = express.Router();
 
 router.get("/", getAllTask);
 router.get("/:id", getAllTaskById);
-router.post("/", createTask);
-router.patch("/:id", updateTask);
+router.post("/", taskValidationRules, createTask);
+router.patch("/:id", taskValidationRules, updateTask);
 router.delete("/:id", deleteTask);
 
 export default router;

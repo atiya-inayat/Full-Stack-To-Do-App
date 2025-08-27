@@ -1,6 +1,6 @@
 import Task from "../models/task.js";
 
-export const createTask = async (req, res) => {
+export const createTask = async (req, res, next) => {
   try {
     const { title, description, dueDate, completed, priority } = req.body;
 
@@ -14,32 +14,35 @@ export const createTask = async (req, res) => {
 
     res.status(201).json(newTask);
   } catch (error) {
-    res.status(500).json({ message: "Server Error", error: error.message });
+    next(error);
   }
 };
 
-export const getAllTask = async (req, res) => {
+export const getAllTask = async (req, res, next) => {
   try {
     const AllTask = await Task.find();
     res.status(200).json(AllTask);
   } catch (error) {
-    res.status(500).json({ message: "Server Error", error: error.message });
+    next(error);
   }
 };
 
-export const getAllTaskById = async (req, res) => {
+export const getAllTaskById = async (req, res, next) => {
   try {
     const TaskByID = await Task.findById(req.params.id);
     if (!TaskByID) {
-      return res.status(404).json({ message: "Task Not Found" });
+      const error = new Error("Task Not Found");
+      error.status = 404; // ✅ set proper status
+
+      return next(error);
     }
     res.status(200).json(TaskByID);
   } catch (error) {
-    res.status(500).json({ message: "Server Error", error: error.message });
+    next(error);
   }
 };
 
-export const updateTask = async (req, res) => {
+export const updateTask = async (req, res, next) => {
   try {
     const { title, description, dueDate, completed, priority } = req.body;
 
@@ -49,22 +52,28 @@ export const updateTask = async (req, res) => {
       { new: true, runValidators: true }
     );
     if (!updateTask) {
-      return res.status(404).json({ message: "Task Not Found" });
+      const error = new Error("Task Not Found");
+      error.status = 404; // ✅ set proper status
+
+      return next(error);
     }
     res.status(200).json(updateTask);
   } catch (error) {
-    res.status(500).json({ message: "Server Error", error: error.message });
+    next(error);
   }
 };
 
-export const deleteTask = async (req, res) => {
+export const deleteTask = async (req, res, next) => {
   try {
     const deletedTask = await Task.findByIdAndDelete(req.params.id);
     if (!deletedTask) {
-      return res.status(404).json({ message: "Task Not Found" });
+      const error = new Error("Task Not Found");
+      error.status = 404; // ✅ set proper status
+
+      return next(error);
     }
     res.status(200).json({ message: "Task Deleted Successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Server Error", error: error.message });
+    next(error);
   }
 };
