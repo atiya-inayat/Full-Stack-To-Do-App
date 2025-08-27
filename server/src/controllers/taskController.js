@@ -14,28 +14,28 @@ export const createTask = async (req, res) => {
 
     res.status(201).json(newTask);
   } catch (error) {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
 
 export const getAllTask = async (req, res) => {
   try {
-    const getAllTask = await Task.find();
-    res.status(200).json(getAllTask);
+    const AllTask = await Task.find();
+    res.status(200).json(AllTask);
   } catch (error) {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
 
 export const getAllTaskById = async (req, res) => {
   try {
-    const getTaskByID = await Task.findById(req.params.id);
-    if (!getTaskByID) {
+    const TaskByID = await Task.findById(req.params.id);
+    if (!TaskByID) {
       return res.status(404).json({ message: "Task Not Found" });
     }
-    res.status(200).json(getTaskByID);
+    res.status(200).json(TaskByID);
   } catch (error) {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
 
@@ -53,7 +53,7 @@ export const updateTask = async (req, res) => {
     }
     res.status(200).json(updateTask);
   } catch (error) {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
 
@@ -65,6 +65,6 @@ export const deleteTask = async (req, res) => {
     }
     res.status(200).json({ message: "Task Deleted Successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
