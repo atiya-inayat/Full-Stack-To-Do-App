@@ -14,6 +14,8 @@ connectDB();
 // Routes
 app.use("/api/tasks", taskRoutes);
 
+app.use(express.json()); // to parse JSON body
+
 app.get("/", (req, res) => {
   res.send("hello World!!");
 });
