@@ -14,10 +14,17 @@ connectDB();
 // console.log("MONGO_URI:", process.env.MONGODB_URI); // test it here (should not be undefined)
 
 app.use(express.json()); // to parse JSON body
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    credentials: true,
+  })
+);
+
 // Routes
 app.use("/api/tasks", taskRoutes);
-
-app.use(cors());
 
 // error - Must be the last middleware
 app.use(errorHandler);
