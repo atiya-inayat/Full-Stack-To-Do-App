@@ -15,7 +15,7 @@ const router = express.Router();
 router.get("/", getAllTask);
 router.get("/:id", getAllTaskById);
 router.post("/", taskValidationRules, createTask);
-router.patch("/:id", taskValidationRules, updateTask);
+router.patch("/:id", updateTask);
 router.delete("/:id", deleteTask);
 
 export default router;
