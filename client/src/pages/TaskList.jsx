@@ -6,6 +6,7 @@ const TaskList = () => {
 
   return (
     <div>
+      <h1>All Tasks</h1>
       <ul>
         {tasks.map((task) => (
           <li key={task._id}>
